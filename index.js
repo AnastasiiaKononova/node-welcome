@@ -1,7 +1,10 @@
-const MathFn = require('./math.js');
-const second = require('./second.js');
+const {User, multyply, b} = require('./math')
+const {format} = require('date-fns');
 
-console.log(MathFn);
+console.log(User);
+
+const user = new User('John', 'Doe');
+console.log(user);
 
 /*
 require() - функція для імпорту модуля
