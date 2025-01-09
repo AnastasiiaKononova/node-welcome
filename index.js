@@ -1,5 +1,41 @@
 const http = require("http");
 const fs = require("fs/promises");
+const express = require("express");
+
+const app = express(); // app - екземпляр маршрутизатора
+
+const server = http.createServer(app); // створюємо сервер, який реагує на запити та передаємо функцію-обробник запитів
+
+server.listen(5000);
+
+/*
+
+Express - фреймворк
+Додаток (application) (app) - екземпляр классу Express, який здійснює маршрутизацію
+Маршрут (end-point, "ручка") - комбінація з url та методу запиту
+
+*/
+
+app.get("/", (req, res) => {
+  // функція-обробник запиту на метод GET, url /
+  res.status(200).send("Hello world");
+});
+
+app.get("/about", (req, res) => {
+  return fs.readFile("./staticView/index.html", "utf-8").then((data) => {
+    res.status(200).send(data);
+  });
+});
+
+app.post("/users", () => {
+  // функція-обробник запиту на метод POST, url /users
+});
+
+app.put("/about", () => {
+  //функція-обробник запиту на метод PUT, url /about
+});
+
+/*
 
 const users = new Map();
 
@@ -23,7 +59,7 @@ function readUsersFromFile() {
   });
 }
 
-const server = http.createServer(requestListener); // створюємо сервер, який реагує на запити та передаємо функцію-обробник запитів
+
 
 function requestListener(request, response) {
   console.log(request.url, request.method);
@@ -86,5 +122,4 @@ function requestListener(request, response) {
     }
   }
 }
-
-server.listen(5000);
+*/
