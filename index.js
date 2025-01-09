@@ -1,13 +1,26 @@
 const http = require("http");
+const fs = require("fs/promises");
 
 const users = new Map();
 
 function signIn(userObj) {
   users.set(userObj.email, userObj);
+  writeMapToFile();
 }
 
 function getListUsers() {
   return [...users.values()];
+}
+
+function writeMapToFile() {
+  fs.writeFile("users.json", JSON.stringify(getListUsers()), "utf-8");
+}
+
+function readUsersFromFile() {
+  return fs.readFile("./users.json", "utf-8").then((data) => {
+    // юзери - це стрінгіфайнутий json
+    return JSON.parse(data);
+  });
 }
 
 const server = http.createServer(requestListener); // створюємо сервер, який реагує на запити та передаємо функцію-обробник запитів
@@ -31,8 +44,9 @@ function requestListener(request, response) {
       // відповісти на запит списком вже зареєстрованих юзерів
       response.statusCode = 200;
       response.statusMessage = "OK";
-      const usersList = getListUsers();
-      response.end(JSON.stringify(usersList));
+      const usersList = readUsersFromFile().then((usersList) => {
+        response.end(JSON.stringify(usersList));
+      });
     } else {
       response.statusCode = 404;
       response.statusMessage = "Not Found";
