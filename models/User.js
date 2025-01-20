@@ -26,6 +26,15 @@ class User {
     deleteUser() {
         return db.delete(this.id);
     }
+
+    updateUser(userId, userData) {
+        const user = db.get(userId);
+        const newData = {
+            ...user,
+            ...userData
+        };
+       return db.set(userId, newData);
+    }
 }
 /*
 CRUD
