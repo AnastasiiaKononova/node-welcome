@@ -24,6 +24,7 @@ module.exports.getOne = async (req, res) => {
   }
   res.status(404).send("There is no such user");
 };
+
 module.exports.deleteOne = async (req, res) => {
   const { userId } = req.params;
   const user = User.findOne(Number(userId));
@@ -33,3 +34,9 @@ module.exports.deleteOne = async (req, res) => {
   }
   res.status(404).send("There is no such user");
 };
+
+module.exports.updateOne = async(req, res) => {
+    const {body, params: {userId}} = req;
+    const result = User.updateUser(Number(userId), body);
+    res.status(200).send(result);
+}

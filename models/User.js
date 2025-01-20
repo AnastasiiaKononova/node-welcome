@@ -27,7 +27,7 @@ class User {
         return db.delete(this.id);
     }
 
-    updateUser(userId, userData) {
+    static updateUser(userId, userData) {
         const user = db.get(userId);
         const newData = {
             ...user,
